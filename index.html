@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto4 Network - Premium Decentralized Hashing Platform</title>
+    <meta name="description" content="Simulate, analyze, and build state-of-the-art crypto mining rigs with Crypto4. Calculate real-time yields, optimize hardware, and run live browser mining nodes.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="glow-bg-radial"></div>
+
+    <!-- MAIN APP HEADER -->
+    <header class="main-header">
+        <div class="logo-container">
+            <div class="logo-icon-wrap">
+                <svg class="logo-svg" viewBox="0 0 100 100">
+                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="url(#logo-grad)" stroke-width="4" />
+                    <polygon points="50,15 85,32.5 85,67.5 50,85 15,67.5 15,32.5" fill="none" stroke="url(#logo-grad2)" stroke-width="2" />
+                    <text x="50" y="58" font-family="'Orbitron', sans-serif" font-size="24" font-weight="900" fill="#00f2fe" text-anchor="middle">C4</text>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00f2fe" />
+                            <stop offset="100%" stop-color="#7f00ff" />
+                        </linearGradient>
+                        <linearGradient id="logo-grad2" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#7f00ff" />
+                            <stop offset="100%" stop-color="#39ff14" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>CRYPTO<span class="superscript">4</span></h1>
+                <span class="sub-logo">HASHING PROTOCOL</span>
+            </div>
+        </div>
+
+        <!-- LIVE NETWORK TICKER -->
+        <div class="ticker-wrapper">
+            <div class="ticker-item">
+                <span class="ticker-label">NETWORK STATE</span>
+                <span class="ticker-value active-pulse">ONLINE</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">BLOCK HEIGHT</span>
+                <span id="ticker-block" class="ticker-value">#891,324</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">GLOBAL HASH</span>
+                <span class="ticker-value">154.21 GH/s</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">C4 INDEX</span>
+                <span id="ticker-price" class="ticker-value text-green">$14.85</span>
+            </div>
+            <div class="ticker-item hidden-mobile">
+                <span class="ticker-label">DIFFICULTY</span>
+                <span class="ticker-value">4.82 TH/s</span>
+            </div>
+        </div>
+
+        <!-- WALLET BUTTON -->
+        <div class="wallet-action">
+            <button id="wallet-connect-btn" class="btn btn-primary btn-glow">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <path d="M16 8h.01M3 10h18" />
+                </svg>
+                <span>Connect Wallet</span>
+            </button>
+            <div id="wallet-details-dropdown" class="wallet-dropdown glass-card hidden">
+                <div class="dropdown-header">
+                    <span class="dot connected-dot"></span>
+                    <span id="wallet-address-display">c4...x892a</span>
+                </div>
+                <div class="dropdown-content">
+                    <div class="dropdown-balance-row">
+                        <span class="bal-lbl">Mined Balance:</span>
+                        <span id="dropdown-balance" class="bal-val">0.000000 C4</span>
+                    </div>
+                    <div class="dropdown-balance-row">
+                        <span class="bal-lbl">USD Value:</span>
+                        <span id="dropdown-usd-balance" class="bal-val-usd">$0.00</span>
+                    </div>
+                </div>
+                <div class="dropdown-footer">
+                    <button id="wallet-withdraw-btn" class="btn btn-secondary btn-small w-100" disabled>Withdraw Funds</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- LEFT COLUMN: CONTROLS & WEB MINER -->
+        <div class="grid-column left-column">
+            <!-- LIVE WEB MINER CONTROL PANEL -->
+            <section class="glass-card miner-card" id="miner-section">
+                <div class="card-header">
+                    <div class="header-title">
+                        <div class="live-indicator">
+                            <span class="pulse-ring" id="miner-pulse"></span>
+                        </div>
+                        <h2>BROWSER MINER SIMULATOR</h2>
+                    </div>
+                    <span class="card-tag neon-border">CPU & GPU HYBRID</span>
+                </div>
+                <div class="card-body">
+                    <!-- MINER MAIN BUTTON -->
+                    <div class="miner-toggle-wrapper">
+                        <button id="miner-toggle-btn" class="miner-btn-action btn-inactive">
+                            <div class="miner-btn-content">
+                                <span id="miner-btn-text">START HASH ENGINE</span>
+                                <span id="miner-btn-sub">INITIALIZE SIMULATED NODE</span>
+                            </div>
+                            <div class="hashing-circles">
+                                <span class="circle c1"></span>
+                                <span class="circle c2"></span>
+                                <span class="circle c3"></span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- MINER LIVE METRICS -->
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <div class="metric-header">
+                                <span class="metric-icon">⚡</span>
+                                <span class="metric-title">CURRENT HASHRATE</span>
+                            </div>
+                            <div class="metric-value" id="miner-hashrate">0.00 H/s</div>
+                            <div class="metric-footer">
+                                <span class="text-muted">Simulated Speed</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-header">
+                                <span class="metric-icon">🔥</span>
+                                <span class="metric-title">CORE TEMPERATURE</span>
+                            </div>
+                            <div class="metric-value temp-normal" id="miner-temp">32.0°C</div>
+                            <div class="metric-footer">
+                                <span class="text-muted">Ambient Air cooled</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-header">
+                                <span class="metric-icon">📦</span>
+                                <span class="metric-title">SHARES FOUND</span>
+                            </div>
+                            <div class="metric-value" id="miner-shares">0</div>
+                            <div class="metric-footer">
+                                <span class="text-muted">Blocks: <span id="miner-blocks">0</span> mined</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-header">
+                                <span class="metric-icon">🔋</span>
+                                <span class="metric-title">SIMULATED POWER</span>
+                            </div>
+                            <div class="metric-value" id="miner-power">0 W</div>
+                            <div class="metric-footer">
+                                <span class="text-muted">Based on activity</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HARDWARE PERFORMANCE CONTROLS -->
+                    <div class="miner-controls">
+                        <div class="control-row">
+                            <div class="control-label-wrap">
+                                <label for="thread-select">Hashing Threads</label>
+                                <span class="control-desc">CPU simulation cores allocated</span>
+                            </div>
+                            <div class="thread-options-wrap">
+                                <button class="thread-btn active" data-threads="1">1</button>
+                                <button class="thread-btn" data-threads="2">2</button>
+                                <button class="thread-btn" data-threads="4">4</button>
+                                <button class="thread-btn" data-threads="8">8</button>
+                            </div>
+                        </div>
+
+                        <div class="control-row">
+                            <div class="control-label-wrap">
+                                <div class="lbl-flex">
+                                    <label for="fan-speed">Manual Fan Speed</label>
+                                    <span id="fan-speed-val" class="text-cyan">40%</span>
+                                </div>
+                                <span class="control-desc">Reduces mining core heat limits</span>
+                            </div>
+                            <input type="range" id="fan-speed" class="custom-slider" min="30" max="100" value="40">
+                        </div>
+                    </div>
+
+                    <!-- REAL-TIME CONSOLE LOGGER -->
+                    <div class="terminal-container">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">HASHING LOG NODE @ C4-CORE</span>
+                            <button id="terminal-clear" class="terminal-clear-btn">Clear</button>
+                        </div>
+                        <div class="terminal-body" id="miner-console-log">
+                            <div class="log-line system-line">[SYSTEM] Welcome to the Crypto4 Decoupled Mining Simulator.</div>
+                            <div class="log-line system-line">[SYSTEM] Connect wallet or click 'START HASH ENGINE' to begin.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- RIGHT COLUMN: ANALYTICS, SHOP, AND CALCULATOR -->
+        <div class="grid-column right-column">
+            
+            <!-- WALLET PORTFOLIO & REAL-TIME CHART -->
+            <section class="glass-card chart-card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <h2>LIVE PORTFOLIO & HASHRATE INDEX</h2>
+                    </div>
+                    <div class="wallet-balance-pill">
+                        <span class="pill-lbl">YOUR ASSETS:</span>
+                        <span id="wallet-balance" class="pill-val">0.000000 C4</span>
+                        <span id="wallet-balance-usd" class="pill-val-usd">$0.00 USD</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- SVG REALTIME GRAPH -->
+                    <div class="chart-container">
+                        <svg id="live-chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
+                            <!-- Background grids -->
+                            <line x1="0" y1="50" x2="600" y2="50" stroke="rgba(255,255,255,0.05)" stroke-dasharray="5,5" />
+                            <line x1="0" y1="100" x2="600" y2="100" stroke="rgba(255,255,255,0.05)" stroke-dasharray="5,5" />
+                            <line x1="0" y1="150" x2="600" y2="150" stroke="rgba(255,255,255,0.05)" stroke-dasharray="5,5" />
+                            
+                            <!-- Graph Paths -->
+                            <path id="chart-area-path" d="M 0 200 L 0 200 Z" fill="url(#chart-area-gradient)" opacity="0.15" />
+                            <path id="chart-line-path" d="M 0 200 L 600 200" fill="none" stroke="#00f2fe" stroke-width="3" />
+                            
+                            <defs>
+                                <linearGradient id="chart-area-gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#00f2fe" />
+                                    <stop offset="100%" stop-color="#7f00ff" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="chart-timeline-labels">
+                            <span>-30s</span>
+                            <span>-20s</span>
+                            <span>-10s</span>
+                            <span>Live</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HARDWARE RIG MARKET -->
+            <section class="glass-card shop-card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <h2>MINING HARDWARE STORE</h2>
+                    </div>
+                    <span class="card-tag toxic-border" id="total-rigs-owned">OWNED: 0 RIGS</span>
+                </div>
+                <div class="card-body">
+                    <p class="section-description">Buy simulated dedicated rigs to compound your hash output automatically. Purchases run in parallel to the browser miner!</p>
+                    
+                    <div class="hardware-grid">
+                        <!-- GPU Valkyrie Rig -->
+                        <div class="hardware-card" id="rig-gpu">
+                            <div class="hw-badge font-orbitron">GPU</div>
+                            <h3 class="hw-title">C4-Valkyrie GTX</h3>
+                            <div class="hw-specs">
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Hash Increase</span>
+                                    <span class="spec-val text-green">+340 MH/s</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Simulated Power</span>
+                                    <span class="spec-val text-orange">650W</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Rigs Owned</span>
+                                    <span id="gpu-owned-count" class="spec-val text-cyan">0</span>
+                                </div>
+                            </div>
+                            <div class="hw-buy-action">
+                                <button class="btn btn-buy w-100 btn-rig-purchase" data-rig="gpu">
+                                    <span>Deploy Rig</span>
+                                    <span class="price-tag">$2,400</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ASIC Forge Rig -->
+                        <div class="hardware-card" id="rig-asic">
+                            <div class="hw-badge font-orbitron gold">ASIC</div>
+                            <h3 class="hw-title">Crypto-Forge Pro</h3>
+                            <div class="hw-specs">
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Hash Increase</span>
+                                    <span class="spec-val text-green">+2,100 MH/s</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Simulated Power</span>
+                                    <span class="spec-val text-orange">2,200W</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Rigs Owned</span>
+                                    <span id="asic-owned-count" class="spec-val text-cyan">0</span>
+                                </div>
+                            </div>
+                            <div class="hw-buy-action">
+                                <button class="btn btn-buy w-100 btn-rig-purchase" data-rig="asic">
+                                    <span>Deploy Rig</span>
+                                    <span class="price-tag">$8,500</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quantum Singularity Rig -->
+                        <div class="hardware-card" id="rig-quantum">
+                            <div class="hw-badge font-orbitron magenta">QUANTUM</div>
+                            <h3 class="hw-title">C4-Singularity X</h3>
+                            <div class="hw-specs">
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Hash Increase</span>
+                                    <span class="spec-val text-green">+18,500 MH/s</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Simulated Power</span>
+                                    <span class="spec-val text-orange">5,000W</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-lbl">Rigs Owned</span>
+                                    <span id="quantum-owned-count" class="spec-val text-cyan">0</span>
+                                </div>
+                            </div>
+                            <div class="hw-buy-action">
+                                <button class="btn btn-buy w-100 btn-rig-purchase" data-rig="quantum">
+                                    <span>Deploy Rig</span>
+                                    <span class="price-tag">$45,000</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MINING PROFITABILITY CALCULATOR -->
+            <section class="glass-card calc-card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <h2>PROFITABILITY YIELD ESTIMATOR</h2>
+                    </div>
+                    <span class="card-tag">REAL-TIME FORECASTS</span>
+                </div>
+                <div class="card-body">
+                    <div class="calc-split">
+                        <!-- Sliders Panel -->
+                        <div class="calc-sliders">
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="calc-hashrate">Mining Hashrate</label>
+                                    <span id="calc-hashrate-val" class="slider-display-val">100 MH/s</span>
+                                </div>
+                                <input type="range" id="calc-hashrate" class="custom-slider" min="10" max="25000" step="10" value="500">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="calc-power">Power Consumption</label>
+                                    <span id="calc-power-val" class="slider-display-val">250 Watts</span>
+                                </div>
+                                <input type="range" id="calc-power" class="custom-slider" min="0" max="10000" step="50" value="650">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="calc-electricity">Electricity Cost</label>
+                                    <span id="calc-electricity-val" class="slider-display-val">$0.12 / kWh</span>
+                                </div>
+                                <input type="range" id="calc-electricity" class="custom-slider" min="0" max="0.50" step="0.01" value="0.12">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="calc-pool-fee">Mining Pool Fee</label>
+                                    <span id="calc-pool-fee-val" class="slider-display-val">1.0%</span>
+                                </div>
+                                <input type="range" id="calc-pool-fee" class="custom-slider" min="0" max="5" step="0.1" value="1.0">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="calc-coin-price">Crypto4 (C4) Price</label>
+                                    <span id="calc-coin-price-val" class="slider-display-val">$14.85</span>
+                                </div>
+                                <input type="range" id="calc-coin-price" class="custom-slider" min="1" max="100" step="0.5" value="14.85">
+                            </div>
+                        </div>
+
+                        <!-- Calculations Output Panel -->
+                        <div class="calc-results">
+                            <div class="results-table">
+                                <div class="table-row table-hdr">
+                                    <span>PERIOD</span>
+                                    <span>EST. COINS</span>
+                                    <span>EXPENSE</span>
+                                    <span class="text-right">NET PROFIT</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>Hourly</span>
+                                    <span id="calc-coins-hour">0.02 C4</span>
+                                    <span id="calc-cost-hour" class="text-red">$0.01</span>
+                                    <span id="calc-profit-hour" class="text-green text-right">+$0.21</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>Daily</span>
+                                    <span id="calc-coins-day">0.42 C4</span>
+                                    <span id="calc-cost-day" class="text-red">$0.24</span>
+                                    <span id="calc-profit-day" class="text-green text-right">+$5.04</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>Weekly</span>
+                                    <span id="calc-coins-week">2.94 C4</span>
+                                    <span id="calc-cost-week" class="text-red">$1.68</span>
+                                    <span id="calc-profit-week" class="text-green text-right">+$35.28</span>
+                                </div>
+                                <div class="table-row">
+                                    <span>Monthly</span>
+                                    <span id="calc-coins-month">12.60 C4</span>
+                                    <span id="calc-cost-month" class="text-red">$7.20</span>
+                                    <span id="calc-profit-month" class="text-green text-right">+$151.20</span>
+                                </div>
+                                <div class="table-row table-ftr font-orbitron">
+                                    <span>ANNUAL NET</span>
+                                    <span id="calc-annual-coins" class="text-cyan">151.2 C4</span>
+                                    <span id="calc-annual-cost" class="text-red">$86.40</span>
+                                    <span id="calc-annual-profit" class="text-green text-right">+$1,814.40</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- CONTACT SECTION -->
+    <section class="glass-card contact-section" id="contact-section">
+        <div class="card-body">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2 class="font-orbitron">PROTOCOL COMMUNICATIONS</h2>
+                    <p>Have inquiries regarding network consensus, hardware colocation, or custom pool alignments? Connect directly with the Crypto4 development core.</p>
+                </div>
+                <div class="contact-methods">
+                    <a href="mailto:aaronsamuel0205@gmail.com" class="contact-btn email-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <div class="contact-label-wrap">
+                            <span class="contact-lbl">Secure Mail Node</span>
+                            <span class="contact-val">aaronsamuel0205@gmail.com</span>
+                        </div>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/aaron_samuel05/" target="_blank" rel="noopener noreferrer" class="contact-btn insta-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                        <div class="contact-label-wrap">
+                            <span class="contact-lbl">Social Frequency</span>
+                            <span class="contact-val">@aaron_samuel05</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-links">
+            <a href="#" class="foot-link">Whitepaper</a>
+            <a href="#" class="foot-link">Node Consensus</a>
+            <a href="#" class="foot-link">API Registry</a>
+            <a href="#" class="foot-link">Security Audit</a>
+        </div>
+        <div class="footer-copyright">
+            <p>&copy; 2026 Crypto4 Network Hashing Protocol. Built for elite blockchain scaling. All simulation parameters strictly Web-sandbox restricted.</p>
+        </div>
+    </footer>
+
+    <!-- WALLET MODAL / CONNECTION MOCK SIMULATOR -->
+    <div id="wallet-modal-overlay" class="modal-overlay hidden">
+        <div class="modal-card glass-card">
+            <button id="modal-close-btn" class="modal-close">&times;</button>
+            <h3 class="modal-title font-orbitron">CONNECT WEB3 WALLET</h3>
+            <p class="modal-subtitle">Choose a provider to sync with your Crypto4 Mining dashboard</p>
+            
+            <div class="wallet-providers-list">
+                <button class="wallet-provider-btn" data-wallet="metamask">
+                    <img src="data:image/svg+xml;utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M29.5 13.9L24.8 4.7c-.3-.6-.9-1-1.6-1H8.8c-.7 0-1.3.4-1.6 1L2.5 13.9c-.3.6-.3 1.3 0 1.9l4.7 9.2c.3.6.9 1 1.6 1h14.4c.7 0 1.3-.4 1.6-1l4.7-9.2c.3-.6.3-1.3 0-1.9z' fill='%23E17726'/><polygon points='16,8 8.8,17.2 16,13.2 23.2,17.2' fill='%23E27625'/><polygon points='16,8 16,13.2 23.2,17.2' fill='%23D5BFB2'/><polygon points='16,8 8.8,17.2 16,13.2' fill='%23231F20'/><polygon points='16,24 8.8,17.2 16,21.2 23.2,17.2' fill='%23E27625'/><polygon points='16,24 16,21.2 23.2,17.2' fill='%23D5BFB2'/></svg>" alt="MetaMask" class="wallet-icon">
+                    <div class="wallet-prov-info">
+                        <span class="wallet-name">MetaMask</span>
+                        <span class="wallet-status">Available (Simulated)</span>
+                    </div>
+                </button>
+                <button class="wallet-provider-btn" data-wallet="coinbase">
+                    <img src="data:image/svg+xml;utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><circle cx='16' cy='16' r='14' fill='%230052FF'/><circle cx='16' cy='16' r='7' fill='white'/></svg>" alt="Coinbase Wallet" class="wallet-icon">
+                    <div class="wallet-prov-info">
+                        <span class="wallet-name">Coinbase Wallet</span>
+                        <span class="wallet-status">Available (Simulated)</span>
+                    </div>
+                </button>
+                <button class="wallet-provider-btn" data-wallet="walletconnect">
+                    <img src="data:image/svg+xml;utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M23 11a10 10 0 0 0-14 0l-1.5 1.5 1.5 1.5L10.5 13a8 8 0 0 1 11 0l1.5 1.5 1.5-1.5zm6.5 6.5l-1.5-1.5-4 4-1.5-1.5-1.5 1.5 3 3a1 1 0 0 0 1.4 0zm-23 0l4 4 1.5-1.5-1.5-1.5 1.5-1.5-4-4zm11.5 4.5l-1.5 1.5a1 1 0 0 0-1.4 0L9.5 22l1.5-1.5 1.5 1.5z' fill='%233B99FC'/></svg>" alt="WalletConnect" class="wallet-icon">
+                    <div class="wallet-prov-info">
+                        <span class="wallet-name">WalletConnect</span>
+                        <span class="wallet-status">Available (Simulated)</span>
+                    </div>
+                </button>
+            </div>
+            
+            <div id="wallet-connecting-loader" class="wallet-loader hidden">
+                <div class="spinner"></div>
+                <p>Establishing peer handshake at crypto4 network consensus...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION WRAPPER -->
+    <div id="notification-center" class="notification-area"></div>
+
+    <!-- CORE SCRIPTS -->
+    <script src="js/miner.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/hardware.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
