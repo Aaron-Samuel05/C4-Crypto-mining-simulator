@@ -37,6 +37,6 @@ To launch the project locally:
 Alternatively, if local file-access flags are enabled in your environment, you can open the index.html file directly in any modern web browser.
 
 ## Contributor
-* Name: Soumya
+* Name: Aaron Samuel
 * Email: aaronsamuel0205@gmail.com
 * GitHub Account: Aaron-Samuel05
